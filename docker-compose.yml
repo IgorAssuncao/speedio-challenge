@@ -1,0 +1,40 @@
+version: "3.7"
+services:
+  mongo_reader:
+    build:
+      context: ./mongo_reader/
+    env_file: .env
+    volumes:
+      - "./mongo_reader:/usr/app"
+    ports:
+      - "3000:3000"
+
+  mongo_sender:
+    build:
+      context: ./mongo_sender/
+    env_file: .env
+    volumes:
+      - "./mongo_sender:/usr/app"
+    ports:
+      - "3001:3001"
+
+  receiver:
+    build:
+      context: ./receiver/
+    env_file: .env
+    volumes:
+      - "./receiver:/usr/app"
+    ports:
+      - "3002:3002"
+  mongo:
+    image: mongo:4.2-bionic
+    volumes:
+      - "./data/mongo:/data/db"
+    ports:
+      - "27017:27017"
+    networks:
+      - "webnet"
+
+networks:
+  webnet:
+    driver: bridge
