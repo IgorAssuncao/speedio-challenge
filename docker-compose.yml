@@ -35,6 +35,20 @@ services:
     networks:
       - "webnet"
 
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+    networks:
+      - "webnet"
+
+  rabbitmq-management:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+    networks:
+      - "webnet"
+
 networks:
   webnet:
     driver: bridge
