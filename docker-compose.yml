@@ -8,7 +8,9 @@ services:
       - "./mongo_reader:/usr/app"
     ports:
       - "3000:3000"
-
+    networks:
+      - "webnet"
+  
   mongo_sender:
     build:
       context: ./mongo_sender/
@@ -17,7 +19,9 @@ services:
       - "./mongo_sender:/usr/app"
     ports:
       - "3001:3001"
-
+    networks:
+      - "webnet"
+  
   receiver:
     build:
       context: ./receiver/
@@ -26,12 +30,29 @@ services:
       - "./receiver:/usr/app"
     ports:
       - "3002:3002"
+    networks:
+      - "webnet"
+
   mongo:
     image: mongo:4.2-bionic
     volumes:
       - "./data/mongo:/data/db"
     ports:
       - "27017:27017"
+    networks:
+      - "webnet"
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+    networks:
+      - "webnet"
+
+  rabbitmq-management:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
     networks:
       - "webnet"
 
